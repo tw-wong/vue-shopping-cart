@@ -1,6 +1,6 @@
 # vue-shopping-cart
 
-## Project setup (step 1.0)
+## Project setup
 ```
 npm install
 ```
