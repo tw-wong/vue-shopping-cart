@@ -1,5 +1,9 @@
 # vue-shopping-cart
 
+## Screenshot
+![Vue Shopping cart demo](https://github.com/tw-wong/vue-shopping-cart/blob/master/screenshot/demo.png)
+
+
 ## Project setup
 ```
 npm install
