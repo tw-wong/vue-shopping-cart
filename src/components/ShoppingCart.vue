@@ -4,11 +4,11 @@
         <thead class="thead-dark">
             <tr>
                 <th scope="col">
-                    <input 
-                    type="checkbox" 
-                    :id="'check_all'" 
+                    <input
+                    type="checkbox"
+                    :id="'check_all'"
                     :checked="is_checked_all"
-                    name="check_box_all" 
+                    name="check_box_all"
                     v-on:change="check_all_item($event.target.checked)"/>
                 </th>
                 <th scope="col">Product</th>
@@ -20,7 +20,7 @@
         </thead>
         <tbody>
             <tr v-for="(item, index) in list"
-            v-if="!item.is_deleted"
+            v-bind:key="item.id"
             is="cart-item"
             :currency="currency"
             :index="index"
@@ -30,6 +30,7 @@
             :price="item.price"
             :quantity="item.quantity"
             :is_checked="item.is_checked"
+            :is_deleted="item.is_deleted"
             >
             </tr>
         </tbody>
@@ -45,22 +46,22 @@ export default {
   name: 'ShoppingCart',
   components: {
     CartItem
-  }, 
+  },
   props: {
     list: {
-        type: Array, 
+        type: Array,
         required: true
     },
     currency: {
-        type: String, 
+        type: String,
         required: true
-    }, 
-  }, 
+    },
+  },
   data(){
     return {
         is_checked_all: false,
     }
-  }, 
+  },
   methods: {
     check_all_item(checked) {
         //console.log('method check_all_item checked:%s', checked);
