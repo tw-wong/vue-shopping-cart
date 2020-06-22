@@ -123,7 +123,7 @@ export default {
     axios
       .get(api)
       .then(response => {
-        this.list = response.data.products;
+        this.list = response.data;
         this.calcTotalPrice();
       })
       .catch(error => {
