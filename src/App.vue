@@ -118,7 +118,7 @@ export default {
   }, 
   mounted(){
     // console.log('Root %s mounted', this.$options.name);  
-    let api = 'https://my-json-server.typicode.com/tw-wong/vue-shopping-cart/data/products';
+    let api = 'https://my-json-server.typicode.com/tw-wong/vue-shopping-cart/products';
     
     axios
       .get(api)
