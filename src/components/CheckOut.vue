@@ -5,13 +5,17 @@
 </template>
 
 <script>
-// import { EventBus } from '../EventBus.js'
-
 export default {
   name: 'CheckOut',
   props: {
-    currency: String,
-    total_price: String,
+    currency: {
+      type: String,
+      required: true
+    },
+    total_price: {
+      type: String,
+      required: true
+    },
   },
 }
 </script>

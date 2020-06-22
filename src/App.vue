@@ -1,23 +1,36 @@
 <template>
   <div id="app" class="container">
     <div class="row">
-        <h1>Shopping cart</h1>
+      <h1>Shopping cart</h1>
     </div>
-    <shopping-cart 
-    :list="list"
-    :currency="currency"
-    ></shopping-cart>
+    
+    <section v-if="errored">
+      <p>We're sorry, we're not able to retrieve this information at the moment, please try back later.</p>
+    </section>
+    
+    <section v-else>
+      <div v-if="loading">Loading...</div>
+      
+      <shopping-cart 
+      :list="list"
+      :currency="currency"
+      ></shopping-cart>
 
-    <check-out 
-    :currency="currency"
-    :total_price="total_price"></check-out>
+      <check-out 
+      :currency="currency"
+      :total_price="total_price"></check-out>
+    </section>
 
-    <footer-bar></footer-bar>
+    <footer-bar 
+    :repo_name="repo_name"
+    :repo_url="repo_url"
+    :repo_author="repo_author"></footer-bar>
   </div>
 </template>
 
 <script>
-import { EventBus } from './EventBus.js'
+import axios from 'axios';
+
 import ShoppingCart from './components/ShoppingCart.vue'
 import CheckOut from './components/CheckOut.vue'
 import FooterBar from './components/FooterBar.vue'
@@ -31,37 +44,15 @@ export default {
   }, 
   data() {
     return {
-      list: [
-        {
-          id: 1, 
-          name: 'Item 01 title and short description goes here.', 
-          image: 'https://via.placeholder.com/40', 
-          price: 10.00, 
-          quantity: 1, 
-          is_checked: true,
-          is_deleted: false
-        }, 
-        {
-          id: 2, 
-          name: 'Item 02 title and short description goes here.', 
-          image: 'https://via.placeholder.com/40', 
-          price: 5.99, 
-          quantity: 1, 
-          is_checked: false,
-          is_deleted: true
-        }, 
-        {
-          id: 3, 
-          name: 'Item 03 title and short description goes here.', 
-          image: 'https://via.placeholder.com/40', 
-          price: 8.99, 
-          quantity: 1, 
-          is_checked: false,
-          is_deleted: false
-        }
-      ], 
       currency: 'RM',
       total_price: '0',
+      repo_name: 'GitHub', 
+      repo_url: 'https://github.com/tw-wong/vue-shopping-cart', 
+      repo_author: 'tw-wong',
+      
+      list: [], 
+      loading: true, 
+      errored: false, 
     }
   }, 
   methods: {
@@ -74,16 +65,16 @@ export default {
           this.total_price += temp_price;          
         }
       }
-
+      
       this.total_price = this.total_price.toFixed(2);
       //console.log('calcTotalPrice total_price:%s', this.total_price);
     }
   }, 
   created() {
-    //console.log('Root %s created', this.$options.name);
+    // console.log('Root %s created', this.$options.name);
   
     //Event listener: when item checkbox is click
-    EventBus.$on('check-item', (index, checked) => {
+    this.$eventBus.$on('check-item', (index, checked) => {
       //console.log('Eventlistener check-item index:%s, checked:%s', index, checked);
       this.list[index].is_checked = checked;
 
@@ -91,7 +82,7 @@ export default {
     });
 
     //Event listener: when item quantity is update (minus / plus)
-    EventBus.$on('update-quantity', (index, type) => {
+    this.$eventBus.$on('update-quantity', (index, type) => {
       //console.log('Eventlistener update-quantity index:%s, type:%s', index, type);
       if(type == 'plus'){
         this.list[index].quantity += 1;
@@ -104,7 +95,7 @@ export default {
     });
 
     //Event listener: when remove item is click
-    EventBus.$on('delete-item', (index) => {
+    this.$eventBus.$on('delete-item', (index) => {
       //console.log('Eventlistener delete-item index:%s', index);
       this.list[index].is_deleted = true;
 
@@ -112,7 +103,7 @@ export default {
     });
 
     //Event listener: when checkbox at table header is click
-    EventBus.$on('check-all-item', (checked) => {
+    this.$eventBus.$on('check-all-item', (checked) => {
       //console.log('Eventlistener check-all-item checked:%s', checked);
       for(let index=0; index<this.list.length; index++){
         if(this.list[index].is_deleted == false){
@@ -123,7 +114,23 @@ export default {
       this.calcTotalPrice();
     });
 
-    this.calcTotalPrice();
+    // this.calcTotalPrice();
+  }, 
+  mounted(){
+    // console.log('Root %s mounted', this.$options.name);  
+    let api = 'https://my-json-server.typicode.com/tw-wong/vue-shopping-cart/data/products';
+    
+    axios
+      .get(api)
+      .then(response => {
+        this.list = response.data.products;
+        this.calcTotalPrice();
+      })
+      .catch(error => {
+        console.log(error);
+        this.errored = true;
+      })
+      .finally(() => this.loading = false)    
   }
 }
 </script>

@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import { EventBus } from '../EventBus.js'
 import CartItem from '../components/CartItem.vue'
 
 export default {
@@ -66,7 +65,7 @@ export default {
     check_all_item(checked) {
         //console.log('method check_all_item checked:%s', checked);
         this.is_checked_all = checked;
-        EventBus.$emit('check-all-item', this.is_checked_all);
+        this.$eventBus.$emit('check-all-item', this.is_checked_all);
     }
   },
 }
