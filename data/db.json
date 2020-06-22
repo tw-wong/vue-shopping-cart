@@ -1,0 +1,31 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Item 01 title and short description goes here.",
+            "image": "https://via.placeholder.com/40",
+            "price": 10,
+            "quantity": 1,
+            "is_checked": true,
+            "is_deleted": false
+        },
+        {
+            "id": 2,
+            "name": "Item 02 title and short description goes here.",
+            "image": "https://via.placeholder.com/40",
+            "price": 5.99,
+            "quantity": 1,
+            "is_checked": false,
+            "is_deleted": true
+        },
+        {
+            "id": 3,
+            "name": "Item 03 title and short description goes here.",
+            "image": "https://via.placeholder.com/40",
+            "price": 8.99,
+            "quantity": 1,
+            "is_checked": false,
+            "is_deleted": false
+        }
+    ]
+}
