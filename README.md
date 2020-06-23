@@ -28,3 +28,7 @@ npm run test:unit
 ```
 npm run lint
 ```
+
+### Demo
+
+https://tw-wong.github.io/vue-shopping-cart/
