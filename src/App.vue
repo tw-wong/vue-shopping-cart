@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container">
     <div class="row">
-      <h1>Shopping cart</h1>
+      <h1>Vue Shopping cart</h1>
     </div>
     
     <section v-if="errored">
